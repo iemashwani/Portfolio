@@ -1,6 +1,7 @@
 /**
  * Portfolio JavaScript - Ashwani Singh
- * Interactive controls for dark mode, scroll progress, navigation, toast notifications & animations.
+ * Interactive controls for dark mode, scroll progress, navigation,
+ * toast notifications, animations & AI Portfolio Assistant.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,14 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ---------------- 1. Theme Toggle ---------------- */
+
 function initTheme() {
   const themeToggleBtn = document.getElementById("themeToggle");
   const savedTheme = localStorage.getItem("theme");
 
-  // Check saved theme or prefers dark media query
+  if (!themeToggleBtn) return;
+
   if (
     savedTheme === "dark" ||
-    (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    (!savedTheme &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
     document.documentElement.setAttribute("data-theme", "dark");
   } else {
@@ -29,30 +33,40 @@ function initTheme() {
   }
 
   themeToggleBtn.addEventListener("click", () => {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const currentTheme =
+      document.documentElement.getAttribute("data-theme");
+
     const newTheme = currentTheme === "dark" ? "light" : "dark";
 
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
+
     showToast(`Switched to ${newTheme} mode`);
   });
 }
 
 /* ---------------- 2. Scroll Progress Bar ---------------- */
+
 function initScrollProgress() {
   const progressBar = document.getElementById("scrollProgress");
 
+  if (!progressBar) return;
+
   window.addEventListener("scroll", () => {
     const scrollTop = window.scrollY;
+
     const docHeight =
       document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+    const scrollPercent =
+      docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
     progressBar.style.width = `${scrollPercent}%`;
   });
 }
 
 /* ---------------- 3. Navigation & Section Clicks ---------------- */
+
 function initMobileNav() {
   const mobileToggle = document.getElementById("mobileToggle");
   const navLinks = document.getElementById("navLinks");
@@ -68,23 +82,32 @@ function initSectionNavigation() {
   document.querySelectorAll("[data-section]").forEach((link) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
+
       const targetId = link.getAttribute("data-section");
       const targetSection = document.getElementById(targetId);
 
       if (targetSection) {
-        targetSection.scrollIntoView({ behavior: "smooth" });
+        targetSection.scrollIntoView({
+          behavior: "smooth",
+        });
       }
 
       const navLinks = document.getElementById("navLinks");
-      if (navLinks) navLinks.classList.remove("open");
+
+      if (navLinks) {
+        navLinks.classList.remove("open");
+      }
     });
   });
 }
 
 /* ---------------- 4. Active Section Navigation ---------------- */
+
 function initActiveNavHighlighting() {
   const sections = document.querySelectorAll("section[id], main[id]");
   const navLinks = document.querySelectorAll("[data-section]");
+
+  if (!sections.length || !navLinks.length) return;
 
   const observerOptions = {
     root: null,
@@ -92,27 +115,33 @@ function initActiveNavHighlighting() {
     threshold: 0,
   };
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const id = entry.target.getAttribute("id");
-        navLinks.forEach((link) => {
-          if (link.getAttribute("data-section") === id) {
-            link.classList.add("active");
-          } else {
-            link.classList.remove("active");
-          }
-        });
-      }
-    });
-  }, observerOptions);
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute("id");
+
+          navLinks.forEach((link) => {
+            if (link.getAttribute("data-section") === id) {
+              link.classList.add("active");
+            } else {
+              link.classList.remove("active");
+            }
+          });
+        }
+      });
+    },
+    observerOptions
+  );
 
   sections.forEach((section) => observer.observe(section));
 }
 
 /* ---------------- 5. Toast Notifications & Copy ---------------- */
+
 function showToast(message) {
   const toast = document.getElementById("toast");
+
   if (!toast) return;
 
   toast.textContent = message;
@@ -130,23 +159,37 @@ function copyToClipboard(text, successMessage) {
       showToast(successMessage || "Copied to clipboard!");
     })
     .catch(() => {
-      // Fallback copy
       const textarea = document.createElement("textarea");
+
       textarea.value = text;
       document.body.appendChild(textarea);
+
       textarea.select();
       document.execCommand("copy");
+
       document.body.removeChild(textarea);
+
       showToast(successMessage || "Copied to clipboard!");
     });
 }
 
-/* ---------------- 6. Contact Form Handler (FormSubmit Integration) ---------------- */
+/* ---------------- 6. Contact Form Handler ---------------- */
+
 function handleFormSubmit(event) {
   event.preventDefault();
+
   const form = event.target;
   const submitBtn = form.querySelector(".btn-submit");
-  const originalBtnContent = `<span>Send Message</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>`;
+
+  const originalBtnContent =
+    `<span>Send Message</span>` +
+    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ` +
+    `stroke-width="2" width="18" height="18">` +
+    `<path d="M22 2L11 13"/>` +
+    `<path d="M22 2l-7 20-4-9-9-4 20-7z"/>` +
+    `</svg>`;
+
+  if (!submitBtn) return;
 
   submitBtn.disabled = true;
   submitBtn.innerHTML = `<span>Sending Email...</span>`;
@@ -163,20 +206,25 @@ function handleFormSubmit(event) {
     .then((res) => res.json())
     .then((data) => {
       if (data.success === "true" || data.success === true) {
-        showToast(`Thank you! Your message has been sent to Ashwani's email.`);
+        showToast(
+          `Thank you! Your message has been sent to Ashwani's email.`
+        );
+
         form.reset();
+
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalBtnContent;
       } else {
-        // If FormSubmit AJAX requires initial activation or server origin, fallback to direct native submit
         showToast(`Redirecting to complete email delivery...`);
+
         setTimeout(() => {
           form.submit();
         }, 500);
       }
     })
-    .catch((error) => {
+    .catch(() => {
       showToast(`Submitting message...`);
+
       setTimeout(() => {
         form.submit();
       }, 500);
@@ -184,10 +232,13 @@ function handleFormSubmit(event) {
 }
 
 /* ---------------- 7. Scroll Reveal & Fluid Motion ---------------- */
+
 function initScrollAnimations() {
   const fadeElements = document.querySelectorAll(
-    ".fade-in, .project-card, .skill-card, .achievement-card, .education-card",
+    ".fade-in, .project-card, .skill-card, .achievement-card, .education-card"
   );
+
+  if (!fadeElements.length) return;
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -200,13 +251,14 @@ function initScrollAnimations() {
     {
       threshold: 0.1,
       rootMargin: "0px 0px -30px 0px",
-    },
+    }
   );
 
   fadeElements.forEach((el) => observer.observe(el));
 }
 
-/* ---------------- 8. Cyber-Diamond Trailing Cursor System ---------------- */
+/* ---------------- 8. Cyber-Diamond Trailing Cursor ---------------- */
+
 function initCustomCursor() {
   if (window.matchMedia("(pointer: coarse)").matches) return;
 
@@ -218,37 +270,48 @@ function initCustomCursor() {
 
   document.body.appendChild(dot);
   document.body.appendChild(ring);
+
   document.documentElement.classList.add("has-custom-cursor");
 
-  let mouseX = -100,
-    mouseY = -100;
-  let ringX = -100,
-    ringY = -100;
+  let mouseX = -100;
+  let mouseY = -100;
+
+  let ringX = -100;
+  let ringY = -100;
 
   window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // Instant diamond dot positioning
-    dot.style.transform = `translate3d(${mouseX - 4.5}px, ${mouseY - 4.5}px, 0) rotate(45deg)`;
+    dot.style.transform =
+      `translate3d(${mouseX - 4.5}px, ${mouseY - 4.5}px, 0) ` +
+      `rotate(45deg)`;
   });
 
-  // Smooth lerp (linear interpolation) physics loop
   function renderCursor() {
     ringX += (mouseX - ringX) * 0.18;
     ringY += (mouseY - ringY) * 0.18;
-    ring.style.transform = `translate3d(${ringX - 19}px, ${ringY - 19}px, 0) rotate(45deg)`;
+
+    ring.style.transform =
+      `translate3d(${ringX - 19}px, ${ringY - 19}px, 0) ` +
+      `rotate(45deg)`;
+
     requestAnimationFrame(renderCursor);
   }
+
   requestAnimationFrame(renderCursor);
 
-  // Click ripple contraction
-  window.addEventListener("mousedown", () => ring.classList.add("clicked"));
-  window.addEventListener("mouseup", () => ring.classList.remove("clicked"));
+  window.addEventListener("mousedown", () => {
+    ring.classList.add("clicked");
+  });
 
-  // Magnetic hover state on interactive elements
+  window.addEventListener("mouseup", () => {
+    ring.classList.remove("clicked");
+  });
+
   const interactives = document.querySelectorAll(
-    "a, button, input, textarea, .project-card, .skill-card, .achievement-card, .education-card, .contact-card",
+    "a, button, input, textarea, .project-card, .skill-card, " +
+      ".achievement-card, .education-card, .contact-card"
   );
 
   interactives.forEach((el) => {
@@ -256,6 +319,7 @@ function initCustomCursor() {
       ring.classList.add("hovered");
       dot.classList.add("hovered");
     });
+
     el.addEventListener("mouseleave", () => {
       ring.classList.remove("hovered");
       dot.classList.remove("hovered");
@@ -263,9 +327,9 @@ function initCustomCursor() {
   });
 }
 
-// =========================
-// AI Portfolio Assistant
-// =========================
+/* =========================================================
+   AI PORTFOLIO ASSISTANT
+   ========================================================= */
 
 const aiChatButton = document.getElementById("ai-chat-button");
 const aiChatWindow = document.getElementById("ai-chat-window");
@@ -274,40 +338,57 @@ const aiChatInput = document.getElementById("ai-chat-input");
 const aiChatSend = document.getElementById("ai-chat-send");
 const aiChatMessages = document.getElementById("ai-chat-messages");
 
-// Open chatbot
-aiChatButton.addEventListener("click", () => {
-  aiChatWindow.style.display = "flex";
+/* ---------------- Open Chatbot ---------------- */
 
-  aiChatInput.focus();
-});
+if (aiChatButton && aiChatWindow && aiChatInput) {
+  aiChatButton.addEventListener("click", () => {
+    aiChatWindow.style.display = "flex";
+    aiChatInput.focus();
+  });
+}
 
-// Close chatbot
-aiChatClose.addEventListener("click", () => {
-  aiChatWindow.style.display = "none";
-});
+/* ---------------- Close Chatbot ---------------- */
 
-// Add message to chat
+if (aiChatClose && aiChatWindow) {
+  aiChatClose.addEventListener("click", () => {
+    aiChatWindow.style.display = "none";
+  });
+}
+
+/* ---------------- Escape HTML ---------------- */
+
+function escapeHTML(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+/* ---------------- Format AI Response ---------------- */
+
+function formatAIResponse(text) {
+  return escapeHTML(text)
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br>");
+}
+
+/* ---------------- Add Chat Message ---------------- */
+
 function addAIMessage(message, type) {
+  if (!aiChatMessages) return null;
+
   const messageElement = document.createElement("div");
 
   messageElement.classList.add(
     "ai-message",
-    type === "user" ? "ai-message-user" : "ai-message-bot",
+    type === "user"
+      ? "ai-message-user"
+      : "ai-message-bot"
   );
 
   if (type === "bot") {
-    // Safely convert basic Markdown-style formatting
-    // into readable HTML.
-    const formattedMessage = message
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\n/g, "<br>");
-
-    messageElement.innerHTML = formattedMessage;
+    messageElement.innerHTML = formatAIResponse(message);
   } else {
-    // User messages remain plain text for safety.
     messageElement.textContent = message;
   }
 
@@ -318,19 +399,14 @@ function addAIMessage(message, type) {
   return messageElement;
 }
 
-function formatAIResponse(text) {
-    return text
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\n/g, "<br>");
-}
+/* ---------------- Send AI Message ---------------- */
 
-// Send message
 async function sendAIMessage() {
+  if (!aiChatInput || !aiChatSend) return;
+
   const question = aiChatInput.value.trim();
 
-  if (!question) {
-    return;
-  }
+  if (!question) return;
 
   // Show user's message
   addAIMessage(question, "user");
@@ -338,7 +414,7 @@ async function sendAIMessage() {
   // Clear input
   aiChatInput.value = "";
 
-  // Disable send while waiting
+  // Disable controls while waiting
   aiChatSend.disabled = true;
   aiChatInput.disabled = true;
 
@@ -348,42 +424,55 @@ async function sendAIMessage() {
   try {
     const answer = await askPortfolioAssistant(question);
 
-    loadingMessage.innerHTML = formatAIResponse(answer);
+    if (loadingMessage) {
+      loadingMessage.innerHTML = formatAIResponse(answer);
+    }
   } catch (error) {
-    console.error(error);
+    console.error("AI Assistant Error:", error);
 
-    loadingMessage.textContent =
-      "Sorry, something went wrong. Please try again.";
+    if (loadingMessage) {
+      loadingMessage.textContent =
+        "Sorry, something went wrong. Please try again.";
+    }
   }
 
-  // Re-enable input
+  // Re-enable controls
   aiChatSend.disabled = false;
   aiChatInput.disabled = false;
 
   aiChatInput.focus();
 }
 
-// Send button
-aiChatSend.addEventListener("click", sendAIMessage);
+/* ---------------- Send Button ---------------- */
 
-// Enter key
-aiChatInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
+if (aiChatSend) {
+  aiChatSend.addEventListener("click", sendAIMessage);
+}
 
-    sendAIMessage();
-  }
-});
+/* ---------------- Enter Key ---------------- */
+
+if (aiChatInput) {
+  aiChatInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendAIMessage();
+    }
+  });
+}
+
+/* ---------------- Backend AI Request ---------------- */
 
 async function askPortfolioAssistant(question) {
   try {
     const response = await fetch(
       "https://ashwani-portfolio-zgr3.onrender.com/api/rag/test?question=" +
-        encodeURIComponent(question),
+        encodeURIComponent(question)
     );
 
     if (!response.ok) {
-      throw new Error("Backend request failed");
+      throw new Error(
+        `Backend request failed: ${response.status}`
+      );
     }
 
     const answer = await response.text();
