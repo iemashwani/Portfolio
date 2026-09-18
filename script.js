@@ -318,6 +318,12 @@ function addAIMessage(message, type) {
   return messageElement;
 }
 
+function formatAIResponse(text) {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\n/g, "<br>");
+}
+
 // Send message
 async function sendAIMessage() {
   const question = aiChatInput.value.trim();
