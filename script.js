@@ -288,41 +288,34 @@ aiChatClose.addEventListener("click", () => {
 
 // Add message to chat
 function addAIMessage(message, type) {
+  const messageElement = document.createElement("div");
 
-    const messageElement = document.createElement("div");
+  messageElement.classList.add(
+    "ai-message",
+    type === "user" ? "ai-message-user" : "ai-message-bot",
+  );
 
-    messageElement.classList.add(
-        "ai-message",
-        type === "user"
-            ? "ai-message-user"
-            : "ai-message-bot"
-    );
+  if (type === "bot") {
+    // Safely convert basic Markdown-style formatting
+    // into readable HTML.
+    const formattedMessage = message
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\n/g, "<br>");
 
-    if (type === "bot") {
+    messageElement.innerHTML = formattedMessage;
+  } else {
+    // User messages remain plain text for safety.
+    messageElement.textContent = message;
+  }
 
-        // Safely convert basic Markdown-style formatting
-        // into readable HTML.
-        const formattedMessage = message
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-            .replace(/\n/g, "<br>");
+  aiChatMessages.appendChild(messageElement);
 
-        messageElement.innerHTML = formattedMessage;
+  aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
 
-    } else {
-
-        // User messages remain plain text for safety.
-        messageElement.textContent = message;
-    }
-
-    aiChatMessages.appendChild(messageElement);
-
-    aiChatMessages.scrollTop =
-        aiChatMessages.scrollHeight;
-
-    return messageElement;
+  return messageElement;
 }
 
 // Send message
@@ -379,7 +372,7 @@ aiChatInput.addEventListener("keydown", (event) => {
 async function askPortfolioAssistant(question) {
   try {
     const response = await fetch(
-      "http://localhost:8080/api/rag/test?question=" +
+      "https://ashwani-portfolio-zgr3.onrender.com/api/rag/test?question=" +
         encodeURIComponent(question),
     );
 
