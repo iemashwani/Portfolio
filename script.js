@@ -342,7 +342,7 @@ async function sendAIMessage() {
   try {
     const answer = await askPortfolioAssistant(question);
 
-    loadingMessage.textContent = answer;
+    loadingMessage.innerHTML = formatAIResponse(answer);
   } catch (error) {
     console.error(error);
 
