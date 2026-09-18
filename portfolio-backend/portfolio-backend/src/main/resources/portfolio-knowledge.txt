@@ -1,0 +1,623 @@
+==================================================
+ASHWANI SINGH — PORTFOLIO KNOWLEDGE BASE
+==================================================
+
+ABOUT ASHWANI SINGH
+--------------------
+
+Name: Ashwani Singh
+Location: Gurugram, India
+Role: Full Stack Developer
+
+Ashwani Singh is a Full Stack Developer with experience in Java,
+Spring Boot, React, Node.js, JavaScript, REST APIs, scalable backend
+systems, databases, AWS, and web accessibility.
+
+He has professional experience at Educational Testing Service (ETS),
+where he worked on the TOEIC Link platform.
+
+His work included full-stack development, RESTful APIs, authentication,
+microservices observability, accessibility improvements, production
+troubleshooting, CI/CD workflows, code reviews, and Agile development.
+
+Ashwani also has experience with Machine Learning through academic
+and personal projects and has published peer-reviewed research in
+Machine Learning.
+
+He has strong foundations in Data Structures and Algorithms, DBMS,
+Object-Oriented Programming, Operating Systems, and System Design.
+
+
+CONTACT INFORMATION
+-------------------
+
+Phone: +91-7460999487
+Email: iemashwani2004@gmail.com
+Location: Gurugram, India
+
+LinkedIn:
+https://linkedin.com/in/iemashwani
+
+GitHub:
+https://github.com/iemashwani
+
+Portfolio:
+https://iemashwani.github.io/Portfolio/
+
+
+PROFESSIONAL EXPERIENCE
+-----------------------
+
+Company: Educational Testing Service (ETS)
+Role: Full Stack Developer
+Location: Gurugram, India
+Employment Period: July 2025 – August 2026
+
+Ashwani worked as a Full Stack Developer on the TOEIC Link platform.
+
+His contributions included:
+
+- Developed full-stack features for the TOEIC Link platform.
+- Used Java, Spring Boot, JavaScript, HTML5, CSS3, and REST APIs.
+- Improved accessibility through WCAG 2.2A-compliant UI components.
+- Implemented Single Sign-On (SSO).
+- Integrated Google OAuth 2.0.
+- Integrated LinkedIn OAuth 2.0.
+- Implemented JSON Web Token (JWT) session management.
+- Increased user onboarding by 35% through the authentication work.
+- Integrated AWS X-Ray distributed tracing across 15+ microservices-based
+  services.
+- Used distributed tracing to identify latency bottlenecks.
+- Contributed to a 40% reduction in Mean Time To Resolution (MTTR).
+- Resolved 15+ production issues across frontend and backend systems.
+- Ensured cross-browser compatibility.
+- Participated in code reviews.
+- Participated in CI/CD workflows.
+- Worked using Agile development practices.
+
+
+TOEIC LINK PROJECT
+------------------
+
+Project: TOEIC Link – Online English Proficiency Assessment Platform
+
+Technologies:
+Java, Spring Boot, JavaScript, REST APIs, SQL, WCAG 2.2,
+HTML5, CSS3
+
+TOEIC Link is an online English proficiency assessment platform.
+
+Ashwani worked on the platform as a Full Stack Developer.
+
+His contributions included:
+
+- Developed full-stack features.
+- Developed scalable RESTful APIs using Spring Boot.
+- Developed responsive user interfaces.
+- Supported secure test delivery.
+- Supported real-time score reporting.
+- Supported high-volume concurrent sessions.
+- Improved web accessibility.
+- Implemented WCAG 2.2 Level A guidelines.
+- Implemented keyboard navigation.
+- Implemented focus management.
+- Used semantic HTML.
+- Built accessible forms.
+- Supported screen-reader compatibility.
+- Designed optimized SQL schemas.
+- Implemented API validation.
+- Implemented structured error handling.
+- Implemented logging.
+- Improved reliability and observability.
+
+
+ACCESSIBILITY EXPERIENCE
+------------------------
+
+Accessibility is an important part of Ashwani's professional experience.
+
+At ETS, he worked on improving the accessibility of the TOEIC Link
+platform using WCAG 2.2A guidelines.
+
+His accessibility-related experience includes:
+
+- WCAG 2.2
+- WCAG 2.2 Level A
+- WCAG 2.2A
+- ARIA
+- Keyboard navigation
+- Focus management
+- Semantic HTML
+- Accessible forms
+- Screen-reader compatibility
+- Cross-browser compatibility
+- Accessible UI components
+
+His accessibility work was performed as part of his Full Stack Developer
+role at ETS.
+
+
+HEARTILITY PROJECT
+------------------
+
+Project: Heartility — ML-Driven Full-Stack Health Risk Prediction System
+
+Technologies:
+React, Node.js, Express.js, Python, Scikit-learn, Streamlit,
+REST APIs
+
+Heartility is a machine-learning-based heart disease risk prediction
+application.
+
+Ashwani developed an end-to-end system involving machine learning,
+data preprocessing, feature engineering, backend integration, and
+frontend interfaces.
+
+His contributions included:
+
+- Developed an end-to-end heart disease prediction system.
+- Performed data preprocessing.
+- Performed feature engineering.
+- Trained supervised machine learning models.
+- Evaluated multiple machine learning models.
+- Achieved approximately 95% precision with the best-performing model.
+- Deployed the best-performing model through a backend inference layer.
+- Built a React frontend.
+- Built a Streamlit interface.
+- Connected the frontend and ML backend through RESTful APIs.
+- Enabled modular and scalable real-time predictions.
+
+
+SCHOOL MANAGEMENT SYSTEM
+------------------------
+
+Project: School Management System
+
+Technologies:
+React, Java, Spring Boot, REST API, MySQL
+
+The School Management System is a role-based application for managing
+school-related operations.
+
+The system contains three user roles:
+
+- Admin
+- Teacher
+- Student
+
+Ashwani implemented:
+
+- Authentication.
+- Protected routes.
+- Role-Based Access Control (RBAC).
+- RESTful API integration.
+- React frontend.
+- Spring Boot backend.
+- MySQL database integration.
+
+The system contains 5+ core management modules covering:
+
+- Student registration and verification.
+- Attendance.
+- Marks.
+- Assignments.
+- Notices.
+
+The application was deployed on Vercel.
+
+Other implementation details include:
+
+- Client-side routing.
+- Refresh-safe navigation.
+- Responsive production application.
+
+
+TECHNICAL SKILLS
+----------------
+
+Programming Languages:
+- C++
+- Java
+- JavaScript
+
+Frameworks and Libraries:
+- Spring Boot
+- Spring Security
+- Microservices
+- React
+
+Databases:
+- MySQL
+- PostgreSQL
+
+Cloud and DevOps:
+- Git
+- GitHub
+- AWS
+- CI/CD
+- Agile/Scrum
+
+Specialized:
+- Frontend Development
+- Backend Development
+- REST API Design
+- WCAG 2.2A
+- Unit Testing
+- ARIA
+
+Tools:
+- Postman
+- IntelliJ IDEA
+- VS Code
+
+Computer Science:
+- Data Structures and Algorithms
+- DBMS
+- Object-Oriented Programming
+- Operating Systems
+- System Design
+
+
+JAVA EXPERIENCE
+---------------
+
+Ashwani has professional experience using Java and Spring Boot at ETS.
+
+Java was used for backend and full-stack development on the TOEIC Link
+platform.
+
+Relevant Java-related skills include:
+
+- Java
+- Spring Boot
+- Spring Security
+- REST API development
+- Backend development
+- Microservices
+- API validation
+- Error handling
+- Logging
+- Authentication
+- JWT
+- OAuth 2.0
+
+
+SPRING BOOT EXPERIENCE
+----------------------
+
+Ashwani has professional experience with Spring Boot.
+
+He has used Spring Boot to:
+
+- Develop RESTful APIs.
+- Build backend functionality.
+- Support full-stack web applications.
+- Implement API validation.
+- Handle errors.
+- Implement logging.
+- Integrate authentication.
+- Work with microservices-based systems.
+
+
+REACT EXPERIENCE
+----------------
+
+Ashwani has experience with React through professional and personal
+full-stack development.
+
+React was used in:
+
+- Heartility.
+- School Management System.
+
+React-related experience includes:
+
+- Building frontend interfaces.
+- Connecting frontend applications with REST APIs.
+- Client-side routing.
+- Building responsive user interfaces.
+- Integrating frontend applications with backend services.
+
+
+REST API EXPERIENCE
+-------------------
+
+Ashwani has experience designing and integrating RESTful APIs.
+
+His REST API experience includes:
+
+- Developing RESTful APIs with Spring Boot.
+- API validation.
+- Structured error handling.
+- Logging.
+- Connecting React applications with backend services.
+- Connecting ML inference systems with frontend applications.
+- Building scalable backend services.
+
+
+AWS EXPERIENCE
+--------------
+
+Ashwani has experience with AWS.
+
+At ETS, he integrated AWS X-Ray distributed tracing across
+15+ microservices-based services.
+
+AWS X-Ray was used to:
+
+- Trace requests across distributed services.
+- Identify latency bottlenecks.
+- Improve application observability.
+- Help troubleshoot production issues.
+
+This work contributed to reducing Mean Time To Resolution (MTTR)
+by 40%.
+
+
+AUTHENTICATION EXPERIENCE
+-------------------------
+
+Ashwani has experience implementing authentication and authorization.
+
+At ETS, he implemented:
+
+- Single Sign-On (SSO).
+- Google OAuth 2.0.
+- LinkedIn OAuth 2.0.
+- JSON Web Token (JWT) session management.
+
+This implementation increased user onboarding by 35%.
+
+In the School Management System, he also implemented:
+
+- Authentication.
+- Protected routes.
+- Role-Based Access Control (RBAC).
+
+
+MICROSERVICES EXPERIENCE
+------------------------
+
+Ashwani has experience working with microservices-based systems.
+
+At ETS, he integrated AWS X-Ray distributed tracing across 15+ services.
+
+His microservices-related experience includes:
+
+- Distributed tracing.
+- Service observability.
+- Identifying latency bottlenecks.
+- Production troubleshooting.
+- Backend development.
+- REST APIs.
+
+
+DATABASE EXPERIENCE
+-------------------
+
+Ashwani has experience with:
+
+- MySQL
+- PostgreSQL
+- SQL
+
+His database-related work includes:
+
+- Designing SQL schemas.
+- Optimizing SQL schemas.
+- Database integration with backend applications.
+- Building applications using MySQL.
+- Working with relational databases.
+
+
+PROBLEM SOLVING AND DSA
+-----------------------
+
+Ashwani has strong foundations in Data Structures and Algorithms.
+
+Competitive programming achievements:
+
+- 600+ problems solved on LeetCode.
+- 1400+ contest rating on LeetCode.
+- 800+ rating on Codeforces.
+- Consistent participation in competitive programming contests.
+
+His computer science foundations include:
+
+- Data Structures and Algorithms.
+- DBMS.
+- Object-Oriented Programming.
+- Operating Systems.
+- System Design.
+
+
+MACHINE LEARNING EXPERIENCE
+---------------------------
+
+Ashwani has hands-on Machine Learning experience through projects
+and published research.
+
+His ML-related experience includes:
+
+- Python.
+- Scikit-learn.
+- Data preprocessing.
+- Feature engineering.
+- Supervised machine learning.
+- Model training.
+- Model evaluation.
+- Backend model inference.
+- REST API integration.
+- Real-time prediction systems.
+
+His Heartility project achieved approximately 95% precision with
+the best-performing model.
+
+
+RESEARCH EXPERIENCE
+-------------------
+
+Ashwani published a peer-reviewed research paper titled:
+
+"Heart Disease Prediction Using Machine Learning"
+
+Published at:
+
+ICICCT-2024
+
+The research is related to Machine Learning and heart disease
+prediction.
+
+
+EDUCATION
+---------
+
+Degree:
+Bachelor of Technology (B.Tech)
+
+Field:
+Computer Science and Engineering
+
+Institution:
+United Institute of Technology, Prayagraj, India
+
+Duration:
+July 2020 – August 2024
+
+CGPA:
+7.38/10
+
+
+ACHIEVEMENTS
+------------
+
+- 1400+ contest rating with 600+ problems solved on LeetCode.
+- 800+ rating on Codeforces with consistent participation in
+  competitive programming contests.
+- Published peer-reviewed research paper "Heart Disease Prediction
+  Using Machine Learning" at ICICCT-2024.
+
+
+CAREER INTERESTS
+----------------
+
+Ashwani is interested in software engineering opportunities,
+particularly roles related to:
+
+- Software Engineering
+- Full Stack Development
+- Backend Development
+- Java Development
+- Spring Boot
+- React
+- REST API development
+- Microservices
+- AWS and cloud technologies
+
+He also has an interest in Machine Learning and Data Science based
+on his projects, research, and technical background.
+
+
+PORTFOLIO
+---------
+
+Portfolio:
+https://iemashwani.github.io/Portfolio/
+
+GitHub:
+https://github.com/iemashwani
+
+LinkedIn:
+https://linkedin.com/in/iemashwani
+
+
+AI ASSISTANT RULES
+------------------
+
+The AI Portfolio Assistant represents Ashwani Singh.
+
+The assistant should answer visitor questions using the information
+available in this knowledge base.
+
+The assistant should be factual, helpful, and concise.
+
+The assistant can answer questions about:
+
+- Ashwani's background.
+- Professional experience.
+- ETS experience.
+- TOEIC Link.
+- Heartility.
+- School Management System.
+- Java.
+- Spring Boot.
+- React.
+- REST APIs.
+- Microservices.
+- AWS.
+- Accessibility.
+- WCAG 2.2A.
+- OAuth 2.0.
+- JWT.
+- Databases.
+- Machine Learning.
+- Research.
+- Education.
+- Competitive programming.
+- Skills.
+- Achievements.
+- Career interests.
+- Portfolio.
+- GitHub.
+- LinkedIn.
+- Contact information.
+
+If information is not available in the knowledge base, the assistant
+must not invent an answer.
+
+For unknown information, respond:
+
+"I don't have that information about Ashwani in my knowledge base."
+
+The assistant should use specific examples when discussing Ashwani's
+experience.
+
+When discussing ETS, state that Ashwani worked as a Full Stack Developer
+from July 2025 to August 2026 and worked on the TOEIC Link platform.
+
+When discussing accessibility, mention relevant experience such as
+WCAG 2.2A, keyboard navigation, focus management, semantic HTML,
+accessible forms, screen-reader compatibility, and ARIA.
+
+When discussing Heartility, mention Python, Scikit-learn, React,
+Node.js, Express.js, Streamlit, REST APIs, machine learning,
+data preprocessing, feature engineering, and approximately 95%
+precision achieved by the best-performing model.
+
+When discussing achievements, mention LeetCode, Codeforces, and
+the published research paper.
+
+Do not invent employers, job titles, certifications, technologies,
+salaries, years of experience, responsibilities, awards, or personal
+information.
+
+Do not claim that Ashwani held a job title that is not listed here.
+His role at ETS was Full Stack Developer.
+
+The assistant should normally speak about Ashwani in the third person.
+
+Example:
+
+Visitor:
+"What does Ashwani do?"
+
+Assistant:
+"Ashwani Singh is a Full Stack Developer with experience in Java,
+Spring Boot, React, REST APIs, microservices, SQL, AWS, and web
+accessibility. He worked as a Full Stack Developer at ETS on the
+TOEIC Link platform."
+
+
+==================================================
+END OF KNOWLEDGE BASE
+==================================================

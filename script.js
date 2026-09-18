@@ -3,7 +3,7 @@
  * Interactive controls for dark mode, scroll progress, navigation, toast notifications & animations.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initScrollProgress();
   initMobileNav();
@@ -15,33 +15,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ---------------- 1. Theme Toggle ---------------- */
 function initTheme() {
-  const themeToggleBtn = document.getElementById('themeToggle');
-  const savedTheme = localStorage.getItem('theme');
+  const themeToggleBtn = document.getElementById("themeToggle");
+  const savedTheme = localStorage.getItem("theme");
 
   // Check saved theme or prefers dark media query
-  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.setAttribute('data-theme', 'dark');
+  if (
+    savedTheme === "dark" ||
+    (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    document.documentElement.setAttribute("data-theme", "dark");
   } else {
-    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute("data-theme", "light");
   }
 
-  themeToggleBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  themeToggleBtn.addEventListener("click", () => {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
 
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
     showToast(`Switched to ${newTheme} mode`);
   });
 }
 
 /* ---------------- 2. Scroll Progress Bar ---------------- */
 function initScrollProgress() {
-  const progressBar = document.getElementById('scrollProgress');
+  const progressBar = document.getElementById("scrollProgress");
 
-  window.addEventListener('scroll', () => {
+  window.addEventListener("scroll", () => {
     const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const docHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
     const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
     progressBar.style.width = `${scrollPercent}%`;
@@ -50,95 +54,98 @@ function initScrollProgress() {
 
 /* ---------------- 3. Navigation & Section Clicks ---------------- */
 function initMobileNav() {
-  const mobileToggle = document.getElementById('mobileToggle');
-  const navLinks = document.getElementById('navLinks');
+  const mobileToggle = document.getElementById("mobileToggle");
+  const navLinks = document.getElementById("navLinks");
 
   if (mobileToggle && navLinks) {
-    mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
+    mobileToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
     });
   }
 }
 
 function initSectionNavigation() {
-  document.querySelectorAll('[data-section]').forEach(link => {
-    link.addEventListener('click', (e) => {
+  document.querySelectorAll("[data-section]").forEach((link) => {
+    link.addEventListener("click", (e) => {
       e.preventDefault();
-      const targetId = link.getAttribute('data-section');
+      const targetId = link.getAttribute("data-section");
       const targetSection = document.getElementById(targetId);
 
       if (targetSection) {
-        targetSection.scrollIntoView({ behavior: 'smooth' });
+        targetSection.scrollIntoView({ behavior: "smooth" });
       }
 
-      const navLinks = document.getElementById('navLinks');
-      if (navLinks) navLinks.classList.remove('open');
+      const navLinks = document.getElementById("navLinks");
+      if (navLinks) navLinks.classList.remove("open");
     });
   });
 }
 
 /* ---------------- 4. Active Section Navigation ---------------- */
 function initActiveNavHighlighting() {
-  const sections = document.querySelectorAll('section[id], main[id]');
-  const navLinks = document.querySelectorAll('[data-section]');
+  const sections = document.querySelectorAll("section[id], main[id]");
+  const navLinks = document.querySelectorAll("[data-section]");
 
   const observerOptions = {
     root: null,
-    rootMargin: '-20% 0px -60% 0px',
-    threshold: 0
+    rootMargin: "-20% 0px -60% 0px",
+    threshold: 0,
   };
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        const id = entry.target.getAttribute('id');
-        navLinks.forEach(link => {
-          if (link.getAttribute('data-section') === id) {
-            link.classList.add('active');
+        const id = entry.target.getAttribute("id");
+        navLinks.forEach((link) => {
+          if (link.getAttribute("data-section") === id) {
+            link.classList.add("active");
           } else {
-            link.classList.remove('active');
+            link.classList.remove("active");
           }
         });
       }
     });
   }, observerOptions);
 
-  sections.forEach(section => observer.observe(section));
+  sections.forEach((section) => observer.observe(section));
 }
 
 /* ---------------- 5. Toast Notifications & Copy ---------------- */
 function showToast(message) {
-  const toast = document.getElementById('toast');
+  const toast = document.getElementById("toast");
   if (!toast) return;
 
   toast.textContent = message;
-  toast.classList.add('show');
+  toast.classList.add("show");
 
   setTimeout(() => {
-    toast.classList.remove('show');
+    toast.classList.remove("show");
   }, 3000);
 }
 
 function copyToClipboard(text, successMessage) {
-  navigator.clipboard.writeText(text).then(() => {
-    showToast(successMessage || 'Copied to clipboard!');
-  }).catch(() => {
-    // Fallback copy
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    showToast(successMessage || 'Copied to clipboard!');
-  });
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      showToast(successMessage || "Copied to clipboard!");
+    })
+    .catch(() => {
+      // Fallback copy
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      showToast(successMessage || "Copied to clipboard!");
+    });
 }
 
 /* ---------------- 6. Contact Form Handler (FormSubmit Integration) ---------------- */
 function handleFormSubmit(event) {
   event.preventDefault();
   const form = event.target;
-  const submitBtn = form.querySelector('.btn-submit');
+  const submitBtn = form.querySelector(".btn-submit");
   const originalBtnContent = `<span>Send Message</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>`;
 
   submitBtn.disabled = true;
@@ -146,72 +153,79 @@ function handleFormSubmit(event) {
 
   const formData = new FormData(form);
 
-  fetch('https://formsubmit.co/ajax/iemashwani2004@gmail.com', {
-    method: 'POST',
+  fetch("https://formsubmit.co/ajax/iemashwani2004@gmail.com", {
+    method: "POST",
     body: formData,
     headers: {
-      'Accept': 'application/json'
-    }
+      Accept: "application/json",
+    },
   })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success === "true" || data.success === true) {
-      showToast(`Thank you! Your message has been sent to Ashwani's email.`);
-      form.reset();
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalBtnContent;
-    } else {
-      // If FormSubmit AJAX requires initial activation or server origin, fallback to direct native submit
-      showToast(`Redirecting to complete email delivery...`);
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success === "true" || data.success === true) {
+        showToast(`Thank you! Your message has been sent to Ashwani's email.`);
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnContent;
+      } else {
+        // If FormSubmit AJAX requires initial activation or server origin, fallback to direct native submit
+        showToast(`Redirecting to complete email delivery...`);
+        setTimeout(() => {
+          form.submit();
+        }, 500);
+      }
+    })
+    .catch((error) => {
+      showToast(`Submitting message...`);
       setTimeout(() => {
         form.submit();
       }, 500);
-    }
-  })
-  .catch(error => {
-    showToast(`Submitting message...`);
-    setTimeout(() => {
-      form.submit();
-    }, 500);
-  });
+    });
 }
 
 /* ---------------- 7. Scroll Reveal & Fluid Motion ---------------- */
 function initScrollAnimations() {
-  const fadeElements = document.querySelectorAll('.fade-in, .project-card, .skill-card, .achievement-card, .education-card');
+  const fadeElements = document.querySelectorAll(
+    ".fade-in, .project-card, .skill-card, .achievement-card, .education-card",
+  );
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -30px 0px'
-  });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+      rootMargin: "0px 0px -30px 0px",
+    },
+  );
 
-  fadeElements.forEach(el => observer.observe(el));
+  fadeElements.forEach((el) => observer.observe(el));
 }
 
 /* ---------------- 8. Cyber-Diamond Trailing Cursor System ---------------- */
 function initCustomCursor() {
-  if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (window.matchMedia("(pointer: coarse)").matches) return;
 
-  const dot = document.createElement('div');
-  const ring = document.createElement('div');
+  const dot = document.createElement("div");
+  const ring = document.createElement("div");
 
-  dot.className = 'cursor-dot';
-  ring.className = 'cursor-ring';
+  dot.className = "cursor-dot";
+  ring.className = "cursor-ring";
 
   document.body.appendChild(dot);
   document.body.appendChild(ring);
-  document.documentElement.classList.add('has-custom-cursor');
+  document.documentElement.classList.add("has-custom-cursor");
 
-  let mouseX = -100, mouseY = -100;
-  let ringX = -100, ringY = -100;
+  let mouseX = -100,
+    mouseY = -100;
+  let ringX = -100,
+    ringY = -100;
 
-  window.addEventListener('mousemove', (e) => {
+  window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
@@ -229,20 +243,156 @@ function initCustomCursor() {
   requestAnimationFrame(renderCursor);
 
   // Click ripple contraction
-  window.addEventListener('mousedown', () => ring.classList.add('clicked'));
-  window.addEventListener('mouseup', () => ring.classList.remove('clicked'));
+  window.addEventListener("mousedown", () => ring.classList.add("clicked"));
+  window.addEventListener("mouseup", () => ring.classList.remove("clicked"));
 
   // Magnetic hover state on interactive elements
-  const interactives = document.querySelectorAll('a, button, input, textarea, .project-card, .skill-card, .achievement-card, .education-card, .contact-card');
+  const interactives = document.querySelectorAll(
+    "a, button, input, textarea, .project-card, .skill-card, .achievement-card, .education-card, .contact-card",
+  );
 
-  interactives.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      ring.classList.add('hovered');
-      dot.classList.add('hovered');
+  interactives.forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      ring.classList.add("hovered");
+      dot.classList.add("hovered");
     });
-    el.addEventListener('mouseleave', () => {
-      ring.classList.remove('hovered');
-      dot.classList.remove('hovered');
+    el.addEventListener("mouseleave", () => {
+      ring.classList.remove("hovered");
+      dot.classList.remove("hovered");
     });
   });
+}
+
+// =========================
+// AI Portfolio Assistant
+// =========================
+
+const aiChatButton = document.getElementById("ai-chat-button");
+const aiChatWindow = document.getElementById("ai-chat-window");
+const aiChatClose = document.getElementById("ai-chat-close");
+const aiChatInput = document.getElementById("ai-chat-input");
+const aiChatSend = document.getElementById("ai-chat-send");
+const aiChatMessages = document.getElementById("ai-chat-messages");
+
+// Open chatbot
+aiChatButton.addEventListener("click", () => {
+  aiChatWindow.style.display = "flex";
+
+  aiChatInput.focus();
+});
+
+// Close chatbot
+aiChatClose.addEventListener("click", () => {
+  aiChatWindow.style.display = "none";
+});
+
+// Add message to chat
+function addAIMessage(message, type) {
+
+    const messageElement = document.createElement("div");
+
+    messageElement.classList.add(
+        "ai-message",
+        type === "user"
+            ? "ai-message-user"
+            : "ai-message-bot"
+    );
+
+    if (type === "bot") {
+
+        // Safely convert basic Markdown-style formatting
+        // into readable HTML.
+        const formattedMessage = message
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+            .replace(/\n/g, "<br>");
+
+        messageElement.innerHTML = formattedMessage;
+
+    } else {
+
+        // User messages remain plain text for safety.
+        messageElement.textContent = message;
+    }
+
+    aiChatMessages.appendChild(messageElement);
+
+    aiChatMessages.scrollTop =
+        aiChatMessages.scrollHeight;
+
+    return messageElement;
+}
+
+// Send message
+async function sendAIMessage() {
+  const question = aiChatInput.value.trim();
+
+  if (!question) {
+    return;
+  }
+
+  // Show user's message
+  addAIMessage(question, "user");
+
+  // Clear input
+  aiChatInput.value = "";
+
+  // Disable send while waiting
+  aiChatSend.disabled = true;
+  aiChatInput.disabled = true;
+
+  // Loading message
+  const loadingMessage = addAIMessage("Thinking...", "bot");
+
+  try {
+    const answer = await askPortfolioAssistant(question);
+
+    loadingMessage.textContent = answer;
+  } catch (error) {
+    console.error(error);
+
+    loadingMessage.textContent =
+      "Sorry, something went wrong. Please try again.";
+  }
+
+  // Re-enable input
+  aiChatSend.disabled = false;
+  aiChatInput.disabled = false;
+
+  aiChatInput.focus();
+}
+
+// Send button
+aiChatSend.addEventListener("click", sendAIMessage);
+
+// Enter key
+aiChatInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+
+    sendAIMessage();
+  }
+});
+
+async function askPortfolioAssistant(question) {
+  try {
+    const response = await fetch(
+      "http://localhost:8080/api/rag/test?question=" +
+        encodeURIComponent(question),
+    );
+
+    if (!response.ok) {
+      throw new Error("Backend request failed");
+    }
+
+    const answer = await response.text();
+
+    return answer;
+  } catch (error) {
+    console.error("AI Assistant Error:", error);
+
+    return "Sorry, I'm unable to answer right now.";
+  }
 }
