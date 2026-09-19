@@ -98,9 +98,13 @@ public class ChatController {
 
     @GetMapping("/api/rag/test")
     public String ragTest(
+            @RequestParam String conversationId,
             @RequestParam String question) {
 
-        return ragService.ask(question);
+        return ragService.ask(
+                conversationId,
+                question
+        );
     }
 
     @GetMapping("/api/contact/whatsapp")

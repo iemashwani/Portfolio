@@ -327,6 +327,7 @@ const aiChatClose = document.getElementById("ai-chat-close");
 const aiChatInput = document.getElementById("ai-chat-input");
 const aiChatSend = document.getElementById("ai-chat-send");
 const aiChatMessages = document.getElementById("ai-chat-messages");
+let conversationId = crypto.randomUUID();
 
 /* ---------------- Open Chatbot ---------------- */
 
@@ -418,7 +419,7 @@ async function sendAIMessage() {
 
     // Detect when AI cannot answer
     const unansweredMessage =
-      "I don't have that information about Ashwani in my knowledge base.";
+      "I don't have that information right now.";
 
     if (answer.includes(unansweredMessage)) {
       const whatsappButton = document.createElement("button");
@@ -474,7 +475,9 @@ if (aiChatInput) {
 async function askPortfolioAssistant(question) {
   try {
     const response = await fetch(
-      "https://ashwani-portfolio-zgr3.onrender.com/api/rag/test?question=" +
+      "http://localhost:8080/api/rag/test?conversationId=" +
+        encodeURIComponent(conversationId) +
+        "&question=" +
         encodeURIComponent(question)
     );
 

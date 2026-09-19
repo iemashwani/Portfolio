@@ -10,22 +10,49 @@ public class RagService {
 
     private final VectorStoreService vectorStoreService;
     private final GeminiService geminiService;
+    private final ConversationMemoryService conversationMemoryService;
 
     public RagService(
             VectorStoreService vectorStoreService,
-            GeminiService geminiService) {
+            GeminiService geminiService,
+            ConversationMemoryService conversationMemoryService) {
 
         this.vectorStoreService = vectorStoreService;
         this.geminiService = geminiService;
+        this.conversationMemoryService = conversationMemoryService;
     }
 
-    public String ask(String question) {
+    public String ask(
+            String conversationId,
+            String question) {
 
+        // Get previous conversation before adding the new question
+        List<ConversationMemoryService.ChatMessage> history =
+                conversationMemoryService.getMessages(conversationId);
+
+        // Save visitor's question
+        conversationMemoryService.addMessage(
+                conversationId,
+                "user",
+                question
+        );
+
+        // RAG search
         List<KnowledgeChunk> results =
                 vectorStoreService.search(question, 3);
 
         if (results.isEmpty()) {
-            return "I don't have that information about Ashwani in my knowledge base.";
+
+            String answer =
+                    "I don't have that information right now.";
+
+            conversationMemoryService.addMessage(
+                    conversationId,
+                    "assistant",
+                    answer
+            );
+
+            return answer;
         }
 
         StringBuilder context = new StringBuilder();
@@ -35,9 +62,32 @@ public class RagService {
                     .append("\n\n");
         }
 
-        return geminiService.generateAnswer(
-                question,
-                context.toString()
+        StringBuilder conversationContext =
+                new StringBuilder();
+
+        for (ConversationMemoryService.ChatMessage message : history) {
+
+            conversationContext
+                    .append(message.getRole())
+                    .append(": ")
+                    .append(message.getMessage())
+                    .append("\n");
+        }
+
+        String answer =
+                geminiService.generateAnswer(
+                        question,
+                        context.toString(),
+                        conversationContext.toString()
+                );
+
+        // Save AI response
+        conversationMemoryService.addMessage(
+                conversationId,
+                "assistant",
+                answer
         );
+
+        return answer;
     }
 }
