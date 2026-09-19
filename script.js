@@ -24,8 +24,7 @@ function initTheme() {
 
   if (
     savedTheme === "dark" ||
-    (!savedTheme &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
+    (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
     document.documentElement.setAttribute("data-theme", "dark");
   } else {
@@ -33,8 +32,7 @@ function initTheme() {
   }
 
   themeToggleBtn.addEventListener("click", () => {
-    const currentTheme =
-      document.documentElement.getAttribute("data-theme");
+    const currentTheme = document.documentElement.getAttribute("data-theme");
 
     const newTheme = currentTheme === "dark" ? "light" : "dark";
 
@@ -58,8 +56,7 @@ function initScrollProgress() {
     const docHeight =
       document.documentElement.scrollHeight - window.innerHeight;
 
-    const scrollPercent =
-      docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
     progressBar.style.width = `${scrollPercent}%`;
   });
@@ -115,24 +112,21 @@ function initActiveNavHighlighting() {
     threshold: 0,
   };
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute("id");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute("id");
 
-          navLinks.forEach((link) => {
-            if (link.getAttribute("data-section") === id) {
-              link.classList.add("active");
-            } else {
-              link.classList.remove("active");
-            }
-          });
-        }
-      });
-    },
-    observerOptions
-  );
+        navLinks.forEach((link) => {
+          if (link.getAttribute("data-section") === id) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      }
+    });
+  }, observerOptions);
 
   sections.forEach((section) => observer.observe(section));
 }
@@ -206,9 +200,7 @@ function handleFormSubmit(event) {
     .then((res) => res.json())
     .then((data) => {
       if (data.success === "true" || data.success === true) {
-        showToast(
-          `Thank you! Your message has been sent to Ashwani's email.`
-        );
+        showToast(`Thank you! Your message has been sent to Ashwani's email.`);
 
         form.reset();
 
@@ -235,7 +227,7 @@ function handleFormSubmit(event) {
 
 function initScrollAnimations() {
   const fadeElements = document.querySelectorAll(
-    ".fade-in, .project-card, .skill-card, .achievement-card, .education-card"
+    ".fade-in, .project-card, .skill-card, .achievement-card, .education-card",
   );
 
   if (!fadeElements.length) return;
@@ -251,7 +243,7 @@ function initScrollAnimations() {
     {
       threshold: 0.1,
       rootMargin: "0px 0px -30px 0px",
-    }
+    },
   );
 
   fadeElements.forEach((el) => observer.observe(el));
@@ -284,8 +276,7 @@ function initCustomCursor() {
     mouseY = e.clientY;
 
     dot.style.transform =
-      `translate3d(${mouseX - 4.5}px, ${mouseY - 4.5}px, 0) ` +
-      `rotate(45deg)`;
+      `translate3d(${mouseX - 4.5}px, ${mouseY - 4.5}px, 0) ` + `rotate(45deg)`;
   });
 
   function renderCursor() {
@@ -293,8 +284,7 @@ function initCustomCursor() {
     ringY += (mouseY - ringY) * 0.18;
 
     ring.style.transform =
-      `translate3d(${ringX - 19}px, ${ringY - 19}px, 0) ` +
-      `rotate(45deg)`;
+      `translate3d(${ringX - 19}px, ${ringY - 19}px, 0) ` + `rotate(45deg)`;
 
     requestAnimationFrame(renderCursor);
   }
@@ -311,7 +301,7 @@ function initCustomCursor() {
 
   const interactives = document.querySelectorAll(
     "a, button, input, textarea, .project-card, .skill-card, " +
-      ".achievement-card, .education-card, .contact-card"
+      ".achievement-card, .education-card, .contact-card",
   );
 
   interactives.forEach((el) => {
@@ -381,9 +371,7 @@ function addAIMessage(message, type) {
 
   messageElement.classList.add(
     "ai-message",
-    type === "user"
-      ? "ai-message-user"
-      : "ai-message-bot"
+    type === "user" ? "ai-message-user" : "ai-message-bot",
   );
 
   if (type === "bot") {
@@ -427,6 +415,27 @@ async function sendAIMessage() {
     if (loadingMessage) {
       loadingMessage.innerHTML = formatAIResponse(answer);
     }
+
+    // Detect when AI cannot answer
+    const unansweredMessage =
+      "I don't have that information about Ashwani in my knowledge base.";
+
+    if (answer.includes(unansweredMessage)) {
+      const whatsappButton = document.createElement("button");
+
+      whatsappButton.className = "ai-whatsapp-button";
+      whatsappButton.textContent = "💬 Talk to Ashwani on WhatsApp";
+
+      whatsappButton.addEventListener("click", () => {
+        openWhatsAppWithAshwani(question);
+      });
+
+      if (aiChatMessages) {
+        aiChatMessages.appendChild(whatsappButton);
+        aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+      }
+    }
+
   } catch (error) {
     console.error("AI Assistant Error:", error);
 
@@ -470,17 +479,42 @@ async function askPortfolioAssistant(question) {
     );
 
     if (!response.ok) {
-      throw new Error(
-        `Backend request failed: ${response.status}`
-      );
+      throw new Error(`Backend request failed: ${response.status}`);
     }
 
     const answer = await response.text();
 
     return answer;
+
   } catch (error) {
     console.error("AI Assistant Error:", error);
 
     return "Sorry, I'm unable to answer right now.";
+  }
+}
+
+async function openWhatsAppWithAshwani(question) {
+  try {
+    const response = await fetch(
+
+        //  "http://localhost:8080/api/contact/whatsapp?question=" +
+      "https://ashwani-portfolio-zgr3.onrender.com/api/contact/whatsapp?question=" +
+        encodeURIComponent(question)
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to create WhatsApp link");
+    }
+
+    const data = await response.json();
+
+    window.open(data.url, "_blank");
+
+  } catch (error) {
+    console.error("WhatsApp handoff failed:", error);
+
+    alert(
+      "Unable to open WhatsApp right now. Please try again later."
+    );
   }
 }

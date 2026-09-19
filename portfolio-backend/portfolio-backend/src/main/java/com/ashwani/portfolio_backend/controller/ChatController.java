@@ -2,16 +2,25 @@ package com.ashwani.portfolio_backend.controller;
 
 import com.ashwani.portfolio_backend.service.GeminiService;
 import com.ashwani.portfolio_backend.service.KnowledgeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.ashwani.portfolio_backend.service.KnowledgeChunkService;
-import java.util.List;
 import com.ashwani.portfolio_backend.service.VectorStoreService;
 import com.ashwani.portfolio_backend.service.RagService;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 public class ChatController {
+
+    @Value("${WHATSAPP_NUMBER}")
+    private String whatsappNumber;
 
     private final GeminiService geminiService;
     private final KnowledgeService knowledgeService;
@@ -59,10 +68,12 @@ public class ChatController {
         return "Embedding generated successfully. Dimensions: "
                 + embedding.size();
     }
+
     @GetMapping("/api/chunks/test")
     public List<String> chunksTest() {
         return knowledgeChunkService.createChunks();
     }
+
     @GetMapping("/api/vector/test")
     public String vectorTest() {
 
@@ -84,10 +95,37 @@ public class ChatController {
                 .map(com.ashwani.portfolio_backend.model.KnowledgeChunk::getText)
                 .toList();
     }
+
     @GetMapping("/api/rag/test")
     public String ragTest(
             @RequestParam String question) {
 
         return ragService.ask(question);
+    }
+
+    @GetMapping("/api/contact/whatsapp")
+    public Map<String, String> getWhatsAppLink(
+            @RequestParam String question) {
+
+        String message =
+                "Hi Ashwani, I was using your portfolio AI assistant " +
+                        "and had this question:\n\n" +
+                        "\"" + question + "\"\n\n" +
+                        "The AI assistant couldn't answer it. " +
+                        "I'd like to discuss it with you.";
+
+        String encodedMessage =
+                URLEncoder.encode(
+                        message,
+                        StandardCharsets.UTF_8
+                );
+
+        String whatsappUrl =
+                "https://wa.me/" +
+                        whatsappNumber +
+                        "?text=" +
+                        encodedMessage;
+
+        return Map.of("url", whatsappUrl);
     }
 }
