@@ -89,23 +89,57 @@ public class GeminiService {
                 }
         );
 
-        Map response = restClient.post()
-                .uri(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(requestBody)
-                .retrieve()
-                .body(Map.class);
+        /*
+         * Call Gemini API.
+         *
+         * Handles:
+         * 429 Too Many Requests
+         * Other REST client errors
+         */
+        Map response;
 
         try {
-            var candidates = (List<?>) response.get("candidates");
-            var candidate = (Map<?, ?>) candidates.get(0);
-            var content = (Map<?, ?>) candidate.get("content");
-            var parts = (List<?>) content.get("parts");
-            var part = (Map<?, ?>) parts.get(0);
+
+            response = restClient.post()
+                    .uri(url)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(requestBody)
+                    .retrieve()
+                    .body(Map.class);
+
+        } catch (org.springframework.web.client.HttpClientErrorException.TooManyRequests e) {
+
+            return "I'm temporarily unable to answer because the AI service has reached its current API quota. Please try again later.";
+
+        } catch (org.springframework.web.client.RestClientException e) {
+
+            return "I'm temporarily unable to answer right now. Please try again later.";
+        }
+
+        /*
+         * Read Gemini response safely.
+         */
+        try {
+
+            var candidates =
+                    (List<?>) response.get("candidates");
+
+            var candidate =
+                    (Map<?, ?>) candidates.get(0);
+
+            var content =
+                    (Map<?, ?>) candidate.get("content");
+
+            var parts =
+                    (List<?>) content.get("parts");
+
+            var part =
+                    (Map<?, ?>) parts.get(0);
 
             return part.get("text").toString();
 
         } catch (Exception e) {
+
             return "Could not read Gemini response.";
         }
     }
@@ -125,29 +159,54 @@ public class GeminiService {
                 )
         );
 
-        Map response = restClient.post()
-                .uri(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(requestBody)
-                .retrieve()
-                .body(Map.class);
+        Map response;
 
         try {
+
+            response = restClient.post()
+                    .uri(url)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(requestBody)
+                    .retrieve()
+                    .body(Map.class);
+
+        } catch (org.springframework.web.client.HttpClientErrorException.TooManyRequests e) {
+
+            throw new RuntimeException(
+                    "Gemini embedding API quota exceeded. Please try again later.",
+                    e
+            );
+
+        } catch (org.springframework.web.client.RestClientException e) {
+
+            throw new RuntimeException(
+                    "Gemini embedding API request failed.",
+                    e
+            );
+        }
+
+        try {
+
             Map<?, ?> embedding =
                     (Map<?, ?>) response.get("embedding");
 
             List<?> values =
                     (List<?>) embedding.get("values");
 
-            List<Double> result = new ArrayList<>();
+            List<Double> result =
+                    new ArrayList<>();
 
             for (Object value : values) {
-                result.add(((Number) value).doubleValue());
+
+                result.add(
+                        ((Number) value).doubleValue()
+                );
             }
 
             return result;
 
         } catch (Exception e) {
+
             throw new RuntimeException(
                     "Could not parse Gemini embedding response",
                     e
