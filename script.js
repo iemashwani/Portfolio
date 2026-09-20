@@ -475,7 +475,7 @@ if (aiChatInput) {
 async function askPortfolioAssistant(question) {
   try {
     const response = await fetch(
-      "http://localhost:8080/api/rag/test?conversationId=" +
+      "https://ashwani-portfolio-zgr3.onrender.com/api/rag/test?conversationId=" +
         encodeURIComponent(conversationId) +
         "&question=" +
         encodeURIComponent(question)
