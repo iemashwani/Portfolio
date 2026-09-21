@@ -1,6 +1,7 @@
 package com.ashwani.portfolio_backend.service;
 
 import com.ashwani.portfolio_backend.model.KnowledgeChunk;
+import com.ashwani.portfolio_backend.model.RagResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,36 +10,35 @@ import java.util.List;
 public class RagService {
 
     private final VectorStoreService vectorStoreService;
-    private final GeminiService geminiService;
+    private final AIProviderManager aiProviderManager;
     private final ConversationMemoryService conversationMemoryService;
+
+    private static final double SIMILARITY_THRESHOLD = 0.60;
 
     public RagService(
             VectorStoreService vectorStoreService,
-            GeminiService geminiService,
+            AIProviderManager aiProviderManager,
             ConversationMemoryService conversationMemoryService) {
 
         this.vectorStoreService = vectorStoreService;
-        this.geminiService = geminiService;
+        this.aiProviderManager = aiProviderManager;
         this.conversationMemoryService = conversationMemoryService;
     }
 
-    public String ask(
+    public RagResponse ask(
             String conversationId,
             String question) {
 
-        // Get previous conversation before adding the new question
         List<ConversationMemoryService.ChatMessage> history =
                 conversationMemoryService.getMessages(conversationId);
 
-        // Save visitor's question
         conversationMemoryService.addMessage(
                 conversationId,
                 "user",
                 question
         );
 
-        // RAG search
-        List<KnowledgeChunk> results =
+        List<VectorStoreService.ScoredChunk> results =
                 vectorStoreService.search(question, 3);
 
         if (results.isEmpty()) {
@@ -52,13 +52,34 @@ public class RagService {
                     answer
             );
 
-            return answer;
+            return new RagResponse(answer, false);
+        }
+
+        double bestScore = results.get(0).score();
+
+        System.out.println(
+                "Best RAG similarity score: " + bestScore
+        );
+
+        if (bestScore < SIMILARITY_THRESHOLD) {
+
+            String answer =
+                    "I don't have that information right now.";
+
+            conversationMemoryService.addMessage(
+                    conversationId,
+                    "assistant",
+                    answer
+            );
+
+            return new RagResponse(answer, false);
         }
 
         StringBuilder context = new StringBuilder();
 
-        for (KnowledgeChunk chunk : results) {
-            context.append(chunk.getText())
+        for (VectorStoreService.ScoredChunk result : results) {
+
+            context.append(result.chunk().getText())
                     .append("\n\n");
         }
 
@@ -74,20 +95,18 @@ public class RagService {
                     .append("\n");
         }
 
-        String answer =
-                geminiService.generateAnswer(
-                        question,
-                        context.toString(),
-                        conversationContext.toString()
-                );
+        String answer = aiProviderManager.generateAnswer(
+                question,
+                context.toString(),
+                conversationContext.toString()
+        );
 
-        // Save AI response
         conversationMemoryService.addMessage(
                 conversationId,
                 "assistant",
                 answer
         );
 
-        return answer;
+        return new RagResponse(answer, true);
     }
 }

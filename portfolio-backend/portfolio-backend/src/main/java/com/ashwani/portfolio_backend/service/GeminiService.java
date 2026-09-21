@@ -8,12 +8,16 @@ import org.springframework.web.client.RestClient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.time.Duration;
+
 
 @Service
-public class GeminiService {
+public class GeminiService implements AIProvider {
 
     @Value("${gemini.api.key}")
     private String apiKey;
+    @Value("${gemini.chat.enabled:true}")
+    private boolean chatEnabled;
 
     private final RestClient restClient;
     private final KnowledgeService knowledgeService;
@@ -23,6 +27,12 @@ public class GeminiService {
 
         this.restClient = RestClient.builder()
                 .baseUrl("https://generativelanguage.googleapis.com")
+                .requestFactory(
+                        new org.springframework.http.client.SimpleClientHttpRequestFactory() {{
+                            setConnectTimeout(Duration.ofSeconds(5));
+                            setReadTimeout(Duration.ofSeconds(20));
+                        }}
+                )
                 .build();
     }
 
@@ -37,10 +47,18 @@ public class GeminiService {
         );
     }
 
+    @Override
+    public String getName() {
+        return "Gemini";
+    }
+
     public String generateAnswer(
             String question,
             String context,
             String conversationHistory) {
+        if (!chatEnabled) {
+            throw new RuntimeException("Gemini chat temporarily disabled for fallback test");
+        }
 
         String prompt = """
         You are AI Ashwani Singh, the personal AI assistant representing Ashwani Singh on his portfolio website.

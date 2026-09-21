@@ -411,17 +411,15 @@ async function sendAIMessage() {
   const loadingMessage = addAIMessage("Thinking...", "bot");
 
   try {
-    const answer = await askPortfolioAssistant(question);
+    const result = await askPortfolioAssistant(question);
+
+    const answer = result.answer;
 
     if (loadingMessage) {
       loadingMessage.innerHTML = formatAIResponse(answer);
     }
 
-    // Detect when AI cannot answer
-    const unansweredMessage =
-      "I don't have that information right now.";
-
-    if (answer.includes(unansweredMessage)) {
+    if (result.answered === false) {
       const whatsappButton = document.createElement("button");
 
       whatsappButton.className = "ai-whatsapp-button";
@@ -436,7 +434,6 @@ async function sendAIMessage() {
         aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
       }
     }
-
   } catch (error) {
     console.error("AI Assistant Error:", error);
 
@@ -476,33 +473,43 @@ async function askPortfolioAssistant(question) {
   try {
     const response = await fetch(
       "https://ashwani-portfolio-zgr3.onrender.com/api/rag/test?conversationId=" +
+
+      // "http://localhost:8080/api/rag/test?conversationId=" +
         encodeURIComponent(conversationId) +
         "&question=" +
-        encodeURIComponent(question)
+        encodeURIComponent(question),
     );
 
     if (!response.ok) {
       throw new Error(`Backend request failed: ${response.status}`);
     }
 
-    const answer = await response.text();
+    const data = await response.json();
 
-    return answer;
+    return {
+      answer:
+        typeof data.answer === "string"
+          ? data.answer
+          : "Sorry, I couldn't process that response.",
 
+      answered: data.answered === true,
+    };
   } catch (error) {
     console.error("AI Assistant Error:", error);
 
-    return "Sorry, I'm unable to answer right now.";
+    return {
+      answer: "Sorry, I'm unable to answer right now.",
+      answered: false,
+    };
   }
 }
 
 async function openWhatsAppWithAshwani(question) {
   try {
     const response = await fetch(
-
-        //  "http://localhost:8080/api/contact/whatsapp?question=" +
-      "https://ashwani-portfolio-zgr3.onrender.com/api/contact/whatsapp?question=" +
-        encodeURIComponent(question)
+      // "http://localhost:8080/api/contact/whatsapp?question=" +
+        "https://ashwani-portfolio-zgr3.onrender.com/api/contact/whatsapp?question=" +
+        encodeURIComponent(question),
     );
 
     if (!response.ok) {
@@ -512,12 +519,9 @@ async function openWhatsAppWithAshwani(question) {
     const data = await response.json();
 
     window.open(data.url, "_blank");
-
   } catch (error) {
     console.error("WhatsApp handoff failed:", error);
 
-    alert(
-      "Unable to open WhatsApp right now. Please try again later."
-    );
+    alert("Unable to open WhatsApp right now. Please try again later.");
   }
 }

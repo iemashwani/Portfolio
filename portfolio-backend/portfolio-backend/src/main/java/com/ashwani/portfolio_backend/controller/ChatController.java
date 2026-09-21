@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.ashwani.portfolio_backend.model.RagResponse;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -88,16 +89,16 @@ public class ChatController {
     public List<String> searchTest(
             @RequestParam String question) {
 
-        List<com.ashwani.portfolio_backend.model.KnowledgeChunk> results =
+        List<VectorStoreService.ScoredChunk> results =
                 vectorStoreService.search(question, 3);
 
         return results.stream()
-                .map(com.ashwani.portfolio_backend.model.KnowledgeChunk::getText)
+                .map(result -> result.chunk().getText())
                 .toList();
     }
 
     @GetMapping("/api/rag/test")
-    public String ragTest(
+    public RagResponse ragTest(
             @RequestParam String conversationId,
             @RequestParam String question) {
 

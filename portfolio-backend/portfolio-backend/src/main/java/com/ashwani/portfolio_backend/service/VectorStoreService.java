@@ -1,12 +1,12 @@
 package com.ashwani.portfolio_backend.service;
 
 import com.ashwani.portfolio_backend.model.KnowledgeChunk;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import org.springframework.boot.CommandLineRunner;
 
 @Service
 public class VectorStoreService implements CommandLineRunner {
@@ -61,7 +61,7 @@ public class VectorStoreService implements CommandLineRunner {
         return chunks;
     }
 
-    public List<KnowledgeChunk> search(
+    public List<ScoredChunk> search(
             String question,
             int topK) {
 
@@ -82,7 +82,6 @@ public class VectorStoreService implements CommandLineRunner {
                         ).reversed()
                 )
                 .limit(topK)
-                .map(ScoredChunk::chunk)
                 .toList();
     }
 
@@ -115,10 +114,11 @@ public class VectorStoreService implements CommandLineRunner {
         }
 
         return dotProduct /
-                (Math.sqrt(magnitudeA) * Math.sqrt(magnitudeB));
+                (Math.sqrt(magnitudeA) *
+                        Math.sqrt(magnitudeB));
     }
 
-    private record ScoredChunk(
+    public record ScoredChunk(
             KnowledgeChunk chunk,
             double score
     ) {
@@ -127,10 +127,14 @@ public class VectorStoreService implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        System.out.println("Building portfolio vector store...");
+        System.out.println(
+                "Building portfolio vector store..."
+        );
 
         buildVectorStore();
 
-        System.out.println("Portfolio vector store ready.");
+        System.out.println(
+                "Portfolio vector store ready."
+        );
     }
 }
