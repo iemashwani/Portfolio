@@ -5,17 +5,17 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.time.Duration;
-
 
 @Service
 public class GeminiService implements AIProvider {
 
     @Value("${gemini.api.key}")
     private String apiKey;
+
     @Value("${gemini.chat.enabled:true}")
     private boolean chatEnabled;
 
@@ -52,12 +52,16 @@ public class GeminiService implements AIProvider {
         return "Gemini";
     }
 
+    @Override
     public String generateAnswer(
             String question,
             String context,
             String conversationHistory) {
+
         if (!chatEnabled) {
-            throw new RuntimeException("Gemini chat temporarily disabled for fallback test");
+            throw new RuntimeException(
+                    "Gemini chat temporarily disabled for fallback test"
+            );
         }
 
         String prompt = """
@@ -143,9 +147,9 @@ public class GeminiService implements AIProvider {
         /*
          * Call Gemini API.
          *
-         * Handles:
-         * 429 Too Many Requests
-         * Other REST client errors
+         * IMPORTANT:
+         * Any Gemini failure must throw an exception.
+         * This allows AIProviderManager to try the next provider.
          */
         Map response;
 
@@ -160,11 +164,26 @@ public class GeminiService implements AIProvider {
 
         } catch (org.springframework.web.client.HttpClientErrorException.TooManyRequests e) {
 
-            return "I'm temporarily unable to answer because the AI service has reached its current API quota. Please try again later.";
+            throw new RuntimeException(
+                    "Gemini chat API quota exceeded.",
+                    e
+            );
 
         } catch (org.springframework.web.client.RestClientException e) {
 
-            return "I'm temporarily unable to answer right now. Please try again later.";
+            throw new RuntimeException(
+                    "Gemini chat API request failed.",
+                    e
+            );
+        }
+
+        /*
+         * Make sure Gemini actually returned a response.
+         */
+        if (response == null) {
+            throw new RuntimeException(
+                    "Gemini returned an empty response."
+            );
         }
 
         /*
@@ -175,23 +194,64 @@ public class GeminiService implements AIProvider {
             var candidates =
                     (List<?>) response.get("candidates");
 
+            if (candidates == null || candidates.isEmpty()) {
+                throw new RuntimeException(
+                        "Gemini returned no candidates."
+                );
+            }
+
             var candidate =
                     (Map<?, ?>) candidates.get(0);
 
             var content =
                     (Map<?, ?>) candidate.get("content");
 
+            if (content == null) {
+                throw new RuntimeException(
+                        "Gemini response did not contain content."
+                );
+            }
+
             var parts =
                     (List<?>) content.get("parts");
+
+            if (parts == null || parts.isEmpty()) {
+                throw new RuntimeException(
+                        "Gemini response did not contain text parts."
+                );
+            }
 
             var part =
                     (Map<?, ?>) parts.get(0);
 
-            return part.get("text").toString();
+            Object textObject = part.get("text");
+
+            if (textObject == null) {
+                throw new RuntimeException(
+                        "Gemini response did not contain answer text."
+                );
+            }
+
+            String answer = textObject.toString();
+
+            if (answer.isBlank()) {
+                throw new RuntimeException(
+                        "Gemini returned an empty answer."
+                );
+            }
+
+            return answer;
+
+        } catch (RuntimeException e) {
+
+            throw e;
 
         } catch (Exception e) {
 
-            return "Could not read Gemini response.";
+            throw new RuntimeException(
+                    "Could not parse Gemini chat response.",
+                    e
+            );
         }
     }
 

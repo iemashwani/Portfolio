@@ -1,12 +1,14 @@
 package com.ashwani.portfolio_backend.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import java.time.Duration;
+
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 
 @Service
@@ -19,6 +21,7 @@ public class GroqService implements AIProvider {
             @Value("${groq.api.key}") String apiKey
     ) {
         this.apiKey = apiKey;
+
         SimpleClientHttpRequestFactory requestFactory =
                 new SimpleClientHttpRequestFactory();
 
@@ -42,6 +45,7 @@ public class GroqService implements AIProvider {
             String context,
             String conversationHistory
     ) {
+
         String prompt = """
                 You are Ashwani's personal AI assistant on his portfolio website.
 
@@ -77,31 +81,115 @@ public class GroqService implements AIProvider {
                 "temperature", 0.3
         );
 
-        Map<?, ?> response = restClient.post()
-                .uri("/chat/completions")
-                .header("Authorization", "Bearer " + apiKey)
-                .header("Content-Type", "application/json")
-                .body(requestBody)
-                .retrieve()
-                .body(Map.class);
+        /*
+         * Call Groq API.
+         *
+         * IMPORTANT:
+         * Any Groq API/network failure must throw an exception.
+         * This allows AIProviderManager to try OpenRouter.
+         */
+        Map<?, ?> response;
 
-        if (response == null || response.get("choices") == null) {
-            throw new RuntimeException("Groq returned an empty response");
+        try {
+
+            response = restClient.post()
+                    .uri("/chat/completions")
+                    .header(
+                            "Authorization",
+                            "Bearer " + apiKey
+                    )
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(requestBody)
+                    .retrieve()
+                    .body(Map.class);
+
+        } catch (org.springframework.web.client.HttpClientErrorException.TooManyRequests e) {
+
+            throw new RuntimeException(
+                    "Groq API quota exceeded.",
+                    e
+            );
+
+        } catch (org.springframework.web.client.RestClientException e) {
+
+            throw new RuntimeException(
+                    "Groq API request failed.",
+                    e
+            );
         }
 
-        List<?> choices = (List<?>) response.get("choices");
-
-        if (choices.isEmpty()) {
-            throw new RuntimeException("Groq returned no choices");
+        /*
+         * Make sure Groq actually returned a response.
+         */
+        if (response == null) {
+            throw new RuntimeException(
+                    "Groq returned an empty response."
+            );
         }
 
-        Map<?, ?> firstChoice = (Map<?, ?>) choices.get(0);
-        Map<?, ?> message = (Map<?, ?>) firstChoice.get("message");
+        /*
+         * Read Groq response safely.
+         */
+        try {
 
-        if (message == null || message.get("content") == null) {
-            throw new RuntimeException("Groq returned no message content");
+            Object choicesObject = response.get("choices");
+
+            if (!(choicesObject instanceof List<?> choices)) {
+                throw new RuntimeException(
+                        "Groq response did not contain choices."
+                );
+            }
+
+            if (choices.isEmpty()) {
+                throw new RuntimeException(
+                        "Groq returned no choices."
+                );
+            }
+
+            Object firstChoiceObject = choices.get(0);
+
+            if (!(firstChoiceObject instanceof Map<?, ?> firstChoice)) {
+                throw new RuntimeException(
+                        "Groq returned an invalid choice."
+                );
+            }
+
+            Object messageObject = firstChoice.get("message");
+
+            if (!(messageObject instanceof Map<?, ?> message)) {
+                throw new RuntimeException(
+                        "Groq returned no message."
+                );
+            }
+
+            Object contentObject = message.get("content");
+
+            if (contentObject == null) {
+                throw new RuntimeException(
+                        "Groq returned no message content."
+                );
+            }
+
+            String answer = contentObject.toString();
+
+            if (answer.isBlank()) {
+                throw new RuntimeException(
+                        "Groq returned an empty answer."
+                );
+            }
+
+            return answer;
+
+        } catch (RuntimeException e) {
+
+            throw e;
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(
+                    "Could not parse Groq response.",
+                    e
+            );
         }
-
-        return message.get("content").toString();
     }
 }
