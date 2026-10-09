@@ -231,18 +231,24 @@
           <div class="hero-content">
             <p class="hero-kicker">
               <span class="pulse-dot"></span> Full Stack Developer &nbsp;·&nbsp;
-              Java &nbsp;·&nbsp; Spring Boot &nbsp;·&nbsp; React
+              Java &nbsp;·&nbsp; Spring Boot &nbsp;·&nbsp; React &nbsp;·&nbsp;
+              Generative AI &nbsp;·&nbsp; RAG
             </p>
             <h1 class="hero-title">
               <span class="title-line">Ashwani</span>
               <span class="title-line highlight-accent">Singh</span>
             </h1>
             <p class="hero-summary">
-              Experienced developer crafting high-performance
-              <strong>Spring Boot microservices</strong>, responsive
-              <strong>React & Node.js UIs</strong>, and WCAG 2.2 accessible
-              digital products. Published ML researcher with a passion for
-              algorithms and robust system design.
+              Full Stack Developer building scalable
+              <strong>Java & Spring Boot applications</strong>, modern
+              <strong>React UIs</strong>, and reliable REST APIs. Experienced in
+              <strong
+                >microservices, WCAG 2.2 accessibility, and Generative
+                AI</strong
+              >
+              using Gemini API, RAG, and semantic search. Published ML
+              researcher passionate about problem-solving, clean code, and
+              robust system design.
             </p>
 
             <div class="hero-cta-group">
@@ -284,98 +290,118 @@
             </div>
           </div>
 
-          <div class="hero-avatar-card">
-            <div class="avatar-frame">
-              <div class="avatar-illustration">
-                <svg
-                  viewBox="0 0 200 200"
-                  class="avatar-svg"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <defs>
-                    <linearGradient
-                      id="avatarGrad"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop offset="0%" stop-color="#ea580c" />
-                      <stop offset="100%" stop-color="#1e293b" />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    cx="100"
-                    cy="100"
-                    r="90"
-                    fill="url(#avatarGrad)"
-                    opacity="0.15"
-                  />
-                  <rect
-                    x="35"
-                    y="40"
-                    width="130"
-                    height="100"
-                    rx="12"
-                    fill="#1e293b"
-                    stroke="#ea580c"
-                    stroke-width="3"
-                  />
-                  <!-- Terminal Header -->
-                  <circle cx="50" cy="55" r="4" fill="#ef4444" />
-                  <circle cx="62" cy="55" r="4" fill="#eab308" />
-                  <circle cx="74" cy="55" r="4" fill="#22c55e" />
-                  <line
-                    x1="35"
-                    y1="68"
-                    x2="165"
-                    y2="68"
-                    stroke="#334155"
-                    stroke-width="2"
-                  />
-                  <!-- Code snippet inside terminal -->
-                  <text
-                    x="45"
-                    y="90"
-                    fill="#22c55e"
-                    font-family="monospace"
-                    font-size="11"
-                  >
-                    class Developer {
-                  </text>
-                  <text
-                    x="55"
-                    y="106"
-                    fill="#38bdf8"
-                    font-family="monospace"
-                    font-size="10"
-                  >
-                    String name = "Ashwani";
-                  </text>
-                  <text
-                    x="55"
-                    y="122"
-                    fill="#f43f5e"
-                    font-family="monospace"
-                    font-size="10"
-                  >
-                    String stack = "Spring+React";
-                  </text>
-                  <text
-                    x="45"
-                    y="136"
-                    fill="#22c55e"
-                    font-family="monospace"
-                    font-size="11"
-                  >
-                    }
-                  </text>
-                </svg>
-              </div>
-            </div>
+          
+
+<div class="hero-avatar-card">
+  <div class="avatar-frame">
+    <div class="avatar-illustration">
+      <svg
+        viewBox="0 0 240 240"
+        class="avatar-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="Ashwani Singh profile photo"
+      >
+        <defs>
+          <linearGradient
+            id="avatarGrad"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop offset="0%" stop-color="#fb923c" />
+            <stop offset="50%" stop-color="#ea580c" />
+            <stop offset="100%" stop-color="#1e293b" />
+          </linearGradient>
+
+          <radialGradient id="avatarGlow">
+            <stop offset="0%" stop-color="#fb923c" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="#fb923c" stop-opacity="0" />
+          </radialGradient>
+
+          <clipPath id="avatarClip">
+            <circle cx="120" cy="120" r="91" />
+          </clipPath>
+
+          <filter id="avatarShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow
+              dx="0"
+              dy="8"
+              stdDeviation="8"
+              flood-color="#ea580c"
+              flood-opacity="0.18"
+            />
+          </filter>
+        </defs>
+
+        {/* Soft background glow */}
+        <circle cx="120" cy="120" r="116" fill="url(#avatarGlow)" />
+
+        {/* Subtle outer ring */}
+        <circle
+          cx="120"
+          cy="120"
+          r="108"
+          fill="none"
+          stroke="url(#avatarGrad)"
+          stroke-width="1"
+          stroke-opacity="0.3"
+          stroke-dasharray="4 7"
+        />
+
+        {/* Main photo frame */}
+        <circle
+          cx="120"
+          cy="120"
+          r="98"
+          fill="url(#avatarGrad)"
+          filter="url(#avatarShadow)"
+        />
+
+        {/* Your profile picture */}
+        <image
+          href="./assets/Photo_Ashwani.jpeg"
+          x="29"
+          y="29"
+          width="182"
+          height="182"
+          preserveAspectRatio="xMidYMid slice"
+          clip-path="url(#avatarClip)"
+        />
+
+        {/* Clean inner border */}
+        <circle
+          cx="120"
+          cy="120"
+          r="91"
+          fill="none"
+          stroke="#ffffff"
+          stroke-width="3"
+          stroke-opacity="0.9"
+        />
+
+        {/* Small decorative accent */}
+        <circle
+          cx="190"
+          cy="51"
+          r="7"
+          fill="#fb923c"
+          stroke="#ffffff"
+          stroke-width="3"
+        />
+      </svg>
+
+      <div class="avatar-status">
+        <span class="avatar-status-dot"></span>
+        Open to opportunities
+      </div>
+    </div>
+  </div>
+</div>
             <div class="hero-floating-badge">
               <span class="badge-icon">⚡</span>
-              <span>1400+ LeetCode Rating</span>
+              <span>1450+ LeetCode Rating</span>
             </div>
           </div>
         </div>
@@ -385,25 +411,32 @@
       <div class="marquee" aria-hidden="true">
         <div class="marquee-track">
           <span>JAVA</span><span class="dot">•</span> <span>SPRING BOOT</span
+          ><span class="dot">•</span> <span>SPRING SECURITY</span
+          ><span class="dot">•</span> <span>HIBERNATE</span
+          ><span class="dot">•</span> <span>REST APIS</span
+          ><span class="dot">•</span> <span>MICROSERVICES</span
           ><span class="dot">•</span> <span>REACT.JS</span
+          ><span class="dot">•</span> <span>JAVASCRIPT</span
           ><span class="dot">•</span> <span>NODE.JS</span
           ><span class="dot">•</span> <span>FASTAPI</span
-          ><span class="dot">•</span> <span>MICROSERVICES</span
-          ><span class="dot">•</span> <span>POSTGRESQL</span
-          ><span class="dot">•</span> <span>AWS DEPLOYMENT</span
+          ><span class="dot">•</span> <span>PYTHON</span
+          ><span class="dot">•</span> <span>GENERATIVE AI</span
+          ><span class="dot">•</span> <span>GEMINI API</span
+          ><span class="dot">•</span> <span>LLM INTEGRATION</span
+          ><span class="dot">•</span> <span>RAG</span><span class="dot">•</span>
+          <span>SEMANTIC SEARCH</span><span class="dot">•</span>
+          <span>EMBEDDINGS</span><span class="dot">•</span>
+          <span>VECTOR SEARCH</span><span class="dot">•</span>
+          <span>POSTGRESQL</span><span class="dot">•</span> <span>MYSQL</span
+          ><span class="dot">•</span> <span>SQL</span><span class="dot">•</span>
+          <span>AWS</span><span class="dot">•</span> <span>CI/CD</span
+          ><span class="dot">•</span> <span>GIT & GITHUB</span
+          ><span class="dot">•</span> <span>REST API INTEGRATION</span
           ><span class="dot">•</span> <span>WCAG 2.2 ACCESSIBILITY</span
-          ><span class="dot">•</span> <span>SYSTEM DESIGN</span
-          ><span class="dot">•</span> <span>JAVA</span
-          ><span class="dot">•</span> <span>SPRING BOOT</span
-          ><span class="dot">•</span> <span>REACT.JS</span
-          ><span class="dot">•</span> <span>NODE.JS</span
-          ><span class="dot">•</span> <span>FASTAPI</span
-          ><span class="dot">•</span> <span>MICROSERVICES</span
-          ><span class="dot">•</span> <span>POSTGRESQL</span
-          ><span class="dot">•</span> <span>AWS DEPLOYMENT</span
-          ><span class="dot">•</span> <span>WCAG 2.2 ACCESSIBILITY</span
-          ><span class="dot">•</span> <span>SYSTEM DESIGN</span
-          ><span class="dot">•</span>
+          ><span class="dot">•</span> <span>ARIA</span
+          ><span class="dot">•</span> <span>DATA STRUCTURES & ALGORITHMS</span
+          ><span class="dot">•</span> <span>OOP</span><span class="dot">•</span>
+          <span>SYSTEM DESIGN</span><span class="dot">•</span>
         </div>
       </div>
     </main>

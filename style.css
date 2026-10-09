@@ -524,32 +524,86 @@ a {
 
 /* Avatar Card */
 .hero-avatar-card {
-  position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 .avatar-frame {
-  width: 100%;
-  max-width: 320px;
-  aspect-ratio: 1;
-  background: var(--bg-main);
-  border: 1px solid var(--border);
-  border-radius: 1.5rem;
-  padding: 1rem;
-  box-shadow: var(--card-shadow);
-  display: grid;
-  place-items: center;
+  position: relative;
+  width: min(100%, 300px);
 }
 
 .avatar-illustration {
+  position: relative;
   width: 100%;
-  height: 100%;
+  animation: avatar-float 5s ease-in-out infinite;
 }
 
 .avatar-svg {
+  display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.avatar-status {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  padding: 10px 15px;
+  border: 1px solid rgba(234, 88, 12, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #334155;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(12px);
+
+}
+
+.avatar-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
+  animation: status-pulse 2s ease-in-out infinite;
+
+}
+
+@keyframes avatar-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-illustration,
+  .avatar-status-dot {
+    animation: none;
+  }
 }
 
 .hero-floating-badge {
